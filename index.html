@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="cosmic">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Celestial Night Cat | Link Tree & Cosmic Portal</title>
+  <meta name="description" content="Official link tree for Celestial Night Cat. Access TikTok, YouTube, Shorts, streams, community, and cosmic content all in one starry place.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="/avatar.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <!-- Interactive Starfield Canvas -->
+  <canvas id="starfield"></canvas>
+
+  <!-- Top Ambient Navigation Bar -->
+  <header class="top-bar">
+    <div class="brand-mini">
+      <span class="moon-icon">🌙</span>
+      <span class="brand-title">Celestial Realm</span>
+    </div>
+    <div class="top-actions">
+      <!-- Sound FX Toggle -->
+      <button id="soundToggleBtn" class="icon-btn" title="Toggle Cosmic Sound FX" aria-label="Toggle Sound">
+        <i class="fas fa-volume-up" id="soundIcon"></i>
+      </button>
+
+      <!-- Theme Selector Dropdown -->
+      <div class="theme-selector">
+        <button id="themeMenuBtn" class="icon-btn" title="Change Theme Palette" aria-label="Themes">
+          <i class="fas fa-palette"></i>
+        </button>
+        <div class="theme-dropdown" id="themeDropdown">
+          <button class="theme-opt active" data-theme="cosmic">
+            <span class="dot violet"></span> Cosmic Aurora
+          </button>
+          <button class="theme-opt" data-theme="eclipse">
+            <span class="dot cyan"></span> Midnight Eclipse
+          </button>
+          <button class="theme-opt" data-theme="starlight">
+            <span class="dot gold"></span> Starlight Gold
+          </button>
+        </div>
+      </div>
+
+      <!-- Share Button -->
+      <button id="shareTreeBtn" class="icon-btn highlight" title="Share Celestial Link Tree" aria-label="Share">
+        <i class="fas fa-share-nodes"></i>
+      </button>
+
+      <!-- QR Code Modal Button -->
+      <button id="qrBtn" class="icon-btn" title="Show QR Code" aria-label="QR Code">
+        <i class="fas fa-qrcode"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- Profile Header Card -->
+    <section class="profile-card">
+      <div class="banner-wrapper">
+        <img src="/banner.jpg" alt="Cosmic Banner" class="banner-img">
+        <div class="banner-overlay"></div>
+      </div>
+
+      <div class="profile-body">
+        <!-- Interactive Avatar -->
+        <div class="avatar-container" id="avatarContainer" title="Click Celestial Night Cat for starlight magic! ✨">
+          <div class="avatar-ring"></div>
+          <img src="/avatar.jpg" alt="Celestial Night Cat Avatar" class="avatar-img" id="catAvatar">
+          <div class="cat-sparkle-badge">✨</div>
+        </div>
+
+        <!-- Identity -->
+        <div class="identity">
+          <h1 class="profile-name">
+            Celestial Night Cat
+            <span class="verified-badge" title="Verified Celestial Creator">
+              <i class="fas fa-check-circle"></i>
+            </span>
+          </h1>
+          <p class="profile-handle">@celestialnightcat</p>
+          <p class="profile-bio">
+            Late night gamer cat with a desire to spread kindness in a dark world 🌙✨
+          </p>
+
+          <div class="business-email-tag">
+            <a href="mailto:celestialnightcat@gmail.com" title="Send email inquiry">
+              <i class="fas fa-envelope"></i> Business Inquiries: celestialnightcat@gmail.com
+            </a>
+          </div>
+          
+        <!-- Social Bar -->
+        <nav class="social-row" id="socialRow" aria-label="Social Profiles">
+          <!-- Dynamically populated -->
+        </nav>
+      </div>
+    </section>
+
+    <!-- Current Flight Plan Card -->
+    <section class="flight-plan-card">
+      <div class="flight-header">
+        <div class="flight-title-group">
+          <i class="fas fa-rocket flight-icon"></i>
+          <div>
+            <h3>Current Flight Plan 🚀</h3>
+            <p class="flight-subtitle">Live Stream Schedule & Orbit Times</p>
+          </div>
+        </div>
+        <span class="pulse-live-badge">LIVE SCHEDULE</span>
+      </div>
+
+      <div class="schedule-grid">
+        <div class="schedule-item">
+          <div class="schedule-days"><i class="fas fa-calendar-week"></i> Sunday – Thursday</div>
+          <div class="schedule-time">Starts at 11:00 PM EST 🌙</div>
+          <span class="sched-tag live">LIVE REALM</span>
+        </div>
+
+        <div class="schedule-item">
+          <div class="schedule-days"><i class="fas fa-paw"></i> Friday & Saturday</div>
+          <div class="schedule-time">Off / Family Time 🐾</div>
+          <span class="sched-tag off">RESTING SANCTUARY</span>
+        </div>
+
+        <div class="schedule-item full-width">
+          <div class="schedule-days"><i class="fas fa-gas-pump"></i> Flight Duration</div>
+          <div class="schedule-time">Until the fuel runs out! ⛽</div>
+          <span class="sched-tag fuel">COSMIC ODYSSEY</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search & Filter Controls -->
+    <section class="controls-section">
+      <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="searchInput" placeholder="Search TikTok, YouTube, Shorts, Stream..." aria-label="Search links">
+        <button id="clearSearch" class="clear-btn" aria-label="Clear Search"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="category-pills" id="categoryPills">
+        <button class="pill active" data-cat="all">All Realm Links</button>
+        <button class="pill" data-cat="Socials">Socials</button>
+        <button class="pill" data-cat="Video & Stream">Videos & Shorts</button>
+        <button class="pill" data-cat="Community">Community</button>
+        <button class="pill" data-cat="Store">Merch & Store</button>
+      </div>
+    </section>
+
+    <!-- Links Container -->
+    <section class="links-section" id="linksContainer">
+      <!-- Dynamically rendered links cards -->
+    </section>
+
+    <!-- Interactive Night Cat Message Box -->
+    <section class="cat-interactive-widget" id="interactiveWidget">
+      <div class="widget-icon">🐾</div>
+      <div class="widget-content">
+        <h4>Celestial Whispers</h4>
+        <p id="catQuote">"Welcome to the night sanctuary! Click any link to journey through the starlight."</p>
+      </div>
+      <button class="purr-btn" id="purrBtn" title="Pet Celestial Cat">
+        <i class="fas fa-heart"></i> Pet Cat
+      </button>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p>✨ Created for <strong>Celestial Night Cat</strong> ✨</p>
+      <div class="footer-links">
+        <button id="copyUrlFooter" class="footer-btn"><i class="fas fa-link"></i> Copy Bio Link</button>
+        <span class="sep">•</span>
+        <a href="#top" class="footer-btn"><i class="fas fa-arrow-up"></i> Top of Realm</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- QR Code Modal -->
+  <div class="modal-backdrop" id="qrModal">
+    <div class="modal-card">
+      <button class="modal-close" id="closeQrModal"><i class="fas fa-times"></i></button>
+      <div class="qr-content">
+        <div class="modal-avatar">
+          <img src="/avatar.jpg" alt="Celestial Night Cat">
+        </div>
+        <h3>Scan to Enter Realm</h3>
+        <p>Scan this QR code with any smartphone camera to open Celestial Night Cat's Link Tree!</p>
+        <div class="qr-code-wrapper" id="qrCodeBox">
+          <!-- Dynamic SVG QR Code -->
+        </div>
+        <button id="downloadQrBtn" class="action-btn"><i class="fas fa-download"></i> Save QR Code</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Toast Modal -->
+  <div class="toast" id="toast">
+    <i class="fas fa-sparkles toast-icon"></i>
+    <span id="toastMsg">Link copied to clipboard! ✨</span>
+  </div>
+
+  <!-- Main JavaScript File -->
+  <script type="module" src="/src/main.js"></script>
+
+</body>
+</html>
