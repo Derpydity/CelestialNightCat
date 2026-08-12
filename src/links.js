@@ -1,5 +1,5 @@
 export const profileData = {
-  name: "Celestial Night Cat",
+  name: "CelestialNightCat",
   handle: "@celestialnightcat",
   bio: "✨ Late night gamer cat with a desire to spread kindness in a dark world 🌙✨",
   email: "celestialnightcat@gmail.com",
