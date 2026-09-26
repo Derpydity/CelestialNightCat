@@ -210,19 +210,6 @@ export const rosterData = [
     tags: ["Live2D", "Space Cat", "Nocturnal"]
   },
   {
-    id: "sneako-cocaptain",
-    name: "Sneako",
-    role: "Co-Captain 🎖️",
-    roleType: "captain",
-    avatar: "./avatar_original.png",
-    icon: "fas fa-shield-cat",
-    bio: "Community co-captain, tactical wingman, and stream coordinator keeping the fleet on course.",
-    twitch: "https://www.twitch.tv",
-    live: false,
-    game: "Community Gaming",
-    tags: ["Leadership", "Collabs", "Tactics"]
-  },
-  {
     id: "cadet-squadron",
     name: "Space Cat Cadets",
     role: "Flight Crew & Streamers 🚀",
