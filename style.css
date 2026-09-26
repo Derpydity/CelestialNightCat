@@ -101,7 +101,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 10;
+  position: relative;
+  z-index: 100;
 }
 
 .brand-mini {
@@ -159,6 +160,7 @@ body {
 /* Theme Selector Dropdown */
 .theme-selector {
   position: relative;
+  z-index: 101;
 }
 
 .theme-dropdown {
@@ -172,14 +174,15 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  min-width: 170px;
-  box-shadow: var(--shadow-card);
-  backdrop-filter: blur(20px);
+  min-width: 175px;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.75), 0 0 20px rgba(157, 78, 221, 0.35);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
   transition: var(--transition);
-  z-index: 20;
+  z-index: 102;
 }
 
 .theme-dropdown.open {
@@ -985,7 +988,7 @@ body {
   opacity: 0;
   visibility: hidden;
   transition: var(--transition);
-  z-index: 200;
+  z-index: 10000;
 }
 
 .toast.show {

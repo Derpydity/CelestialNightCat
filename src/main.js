@@ -412,6 +412,12 @@ function setupThemeSelector() {
     dropdown.classList.remove('open');
   });
 
+  window.addEventListener('scroll', () => {
+    if (dropdown.classList.contains('open')) {
+      dropdown.classList.remove('open');
+    }
+  }, { passive: true });
+
   themeOpts.forEach(opt => {
     opt.addEventListener('click', () => {
       themeOpts.forEach(o => o.classList.remove('active'));
@@ -424,6 +430,7 @@ function setupThemeSelector() {
         localStorage.setItem('cnc_theme', theme);
       } catch (e) {}
 
+      dropdown.classList.remove('open');
       playChime(650, 900);
       showToast(`Switched to ${opt.textContent.trim()} theme! ✨`);
     });
@@ -494,7 +501,8 @@ function setupQrModal() {
         document.body.style.overflow = '';
       }
       const themeDropdown = document.getElementById('themeDropdown');
-      if (themeDropdown && themeDropdown.classList.contains('show')) {
+      if (themeDropdown && (themeDropdown.classList.contains('open') || themeDropdown.classList.contains('show'))) {
+        themeDropdown.classList.remove('open');
         themeDropdown.classList.remove('show');
       }
     }
