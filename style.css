@@ -1518,6 +1518,36 @@ body {
   border: 2px solid var(--border-color);
 }
 
+.roster-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #ffffff;
+  border: 2px solid var(--border-color);
+  background: linear-gradient(135deg, rgba(155, 93, 229, 0.4), rgba(0, 245, 212, 0.4));
+  box-shadow: 0 0 12px rgba(155, 93, 229, 0.25);
+}
+
+.roster-avatar-fallback.commander {
+  background: linear-gradient(135deg, #9b5de5, #f15bb5);
+  border-color: rgba(241, 91, 181, 0.6);
+}
+
+.roster-avatar-fallback.captain {
+  background: linear-gradient(135deg, #00bbf9, #00f5d4);
+  border-color: rgba(0, 245, 212, 0.6);
+}
+
+.roster-avatar-fallback.cadet {
+  background: linear-gradient(135deg, #fee440, #00f5d4);
+  color: #1a1a2e;
+  border-color: rgba(254, 228, 64, 0.6);
+}
+
 .roster-live-pulse {
   position: absolute;
   bottom: 0;

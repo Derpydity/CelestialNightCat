@@ -644,15 +644,33 @@ function renderRosterSection() {
   const rosterGrid = document.getElementById('rosterGrid');
   if (!rosterGrid || !rosterData) return;
 
+  const baseUrl = (import.meta.env.BASE_URL || './').replace(/\/+$/, '') + '/';
+
   rosterGrid.innerHTML = rosterData.map(member => {
     const liveBadge = member.live ? `<span class="roster-live-pulse">LIVE</span>` : '';
     const tagsHtml = member.tags ? member.tags.map(t => `<span class="roster-pill">#${t}</span>`).join('') : '';
+
+    let avatarSrc = member.avatar || '';
+    if (avatarSrc.startsWith('./')) {
+      avatarSrc = baseUrl + avatarSrc.slice(2);
+    } else if (avatarSrc.startsWith('/')) {
+      avatarSrc = baseUrl + avatarSrc.slice(1);
+    }
 
     return `
       <div class="roster-card" id="${member.id}">
         <div class="roster-top">
           <div class="roster-avatar-wrap">
-            <img src="${member.avatar}" alt="${member.name}" class="roster-avatar">
+            ${avatarSrc ? `
+              <img src="${avatarSrc}" alt="" class="roster-avatar" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+              <div class="roster-avatar-fallback ${member.roleType}" style="display:none;">
+                <i class="${member.icon || 'fas fa-user-astronaut'}"></i>
+              </div>
+            ` : `
+              <div class="roster-avatar-fallback ${member.roleType}">
+                <i class="${member.icon || 'fas fa-user-astronaut'}"></i>
+              </div>
+            `}
             ${liveBadge}
           </div>
           <div class="roster-identity">
