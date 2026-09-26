@@ -188,15 +188,6 @@ export const teamData = {
   ],
   operations: [
     {
-      badge: "COMMUNITY SHOWDOWN 🏆",
-      title: "The Baja Blast Cup",
-      desc: "Our signature community competitive tournament! Open to fleet pilots, community members, and friendly rivals. Brackets, prizes, and game schedules are hosted in Discord #🏆﹒fleet-tournaments.",
-      icon: "fas fa-trophy",
-      accent: "cyan",
-      actionText: "Tournament Channel",
-      actionUrl: "https://discord.gg/xkttEuvkkV"
-    },
-    {
       badge: "WEEKLY SYNC 🚀",
       title: "The Starlight Raid Network",
       desc: "Zero broadcasts end in darkness. Every stream wraps up with an active raid hand-off to fellow crew members and rising indie VTubers in orbit.",
@@ -239,17 +230,17 @@ export const rosterData = [
     tags: ["Live2D", "Space Cat", "Nocturnal"]
   },
   {
-    id: "cadet-squadron",
-    name: "Space Cat Cadets",
-    role: "Flight Crew & Streamers 🚀",
-    roleType: "cadet",
+    id: "space-cats-crew",
+    name: "Space Cats",
+    role: "Stream Team Members 🚀",
+    roleType: "spacecat",
     avatar: "./avatar.jpg",
     icon: "fas fa-rocket",
-    bio: "Our growing squadron of creative VTubers, PNGtubers, and variety broadcasters voyaging through the stars.",
+    bio: "Our growing crew of creative VTubers, PNGtubers, and variety broadcasters voyaging through the stars together.",
     twitch: "https://www.twitch.tv/team/spacecatsprogram",
     live: false,
     game: "Indie / Multiplayer",
-    tags: ["VTuber", "Raid Chain", "Cozy"]
+    tags: ["Space Cats", "VTuber", "Raid Chain"]
   }
 ];
 
