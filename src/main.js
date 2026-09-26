@@ -804,8 +804,12 @@ function setupApplicationModal() {
       if (btnSpinner) btnSpinner.style.display = 'inline-flex';
 
       try {
-        // Send to Server-Side Relay on Hermes VPS
-        const response = await fetch('/api/team-apply', {
+        // Send to Server-Side Relay on Hermes VPS (dynamic fallback for GitHub Pages)
+        const apiUrl = window.location.hostname.includes('github.io')
+          ? 'https://autumn-publication-authentic-southwest.trycloudflare.com/api/team-apply'
+          : '/api/team-apply';
+
+        const response = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
