@@ -724,6 +724,7 @@ function setupApplicationModal() {
     if (successWrapper) successWrapper.style.display = 'none';
     if (errorBanner) errorBanner.style.display = 'none';
 
+    modal.classList.add('active');
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -731,6 +732,7 @@ function setupApplicationModal() {
 
   function closeModal() {
     if (!modal) return;
+    modal.classList.remove('active');
     modal.classList.remove('show');
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
