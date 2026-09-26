@@ -824,10 +824,10 @@ function setupApplicationModal() {
       if (btnSpinner) btnSpinner.style.display = 'inline-flex';
 
       try {
-        // Send to Server-Side Relay on Hermes VPS (dynamic fallback for GitHub Pages)
-        const apiUrl = window.location.hostname.includes('github.io')
-          ? 'https://autumn-publication-authentic-southwest.trycloudflare.com/api/team-apply'
-          : '/api/team-apply';
+        // Send to Server-Side Relay on Hermes VPS (works on Vercel, GitHub Pages, and local)
+        const apiUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('trycloudflare.com'))
+          ? '/api/team-apply'
+          : 'https://autumn-publication-authentic-southwest.trycloudflare.com/api/team-apply';
 
         const response = await fetch(apiUrl, {
           method: 'POST',
