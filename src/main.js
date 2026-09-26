@@ -803,6 +803,8 @@ function setupApplicationModal() {
       const streamerName = form.querySelector('[name="streamer_name"]').value.trim();
       const twitchUrl = form.querySelector('[name="twitch_url"]').value.trim();
       const discordHandle = form.querySelector('[name="discord_handle"]').value.trim();
+      const contactEmailInput = form.querySelector('[name="contact_email"]');
+      const contactEmail = contactEmailInput ? contactEmailInput.value.trim() : '';
       const timezoneSchedule = form.querySelector('[name="timezone_schedule"]').value.trim();
       const archetype = form.querySelector('[name="archetype"]').value;
       const frequency = form.querySelector('[name="stream_frequency"]').value;
@@ -814,8 +816,13 @@ function setupApplicationModal() {
       const pledgeSafety = form.querySelector('[name="pledge_safety"]').checked;
       const pledgeDiscord = form.querySelector('[name="pledge_discord"]').checked;
 
-      if (!streamerName || !twitchUrl || !discordHandle || !archetype || !frequency) {
+      if (!streamerName || !twitchUrl || !discordHandle || !contactEmail || !archetype || !frequency) {
         showError("Please fill out all required flight telemetry fields.");
+        return;
+      }
+
+      if (!contactEmail.includes('@') || !contactEmail.includes('.')) {
+        showError("Please provide a valid contact email address for flight clearance.");
         return;
       }
 
@@ -833,6 +840,8 @@ function setupApplicationModal() {
         streamer_name: streamerName,
         twitch_url: twitchUrl,
         discord_handle: discordHandle,
+        email: contactEmail,
+        contact_email: contactEmail,
         timezone_schedule: timezoneSchedule,
         archetype: archetype,
         stream_frequency: frequency,
