@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="cosmic">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space Cats Program & CelestialNightCat | Official Creator Portal</title>
+  <meta name="description" content="Official Portal for CelestialNightCat and the Space Cats Program Twitch Stream Team. Access stream links, crew roster, and flight clearance applications.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="./avatar.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <script type="module" crossorigin src="./assets/index-CJk6yN63.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Cj0xVIN-.css">
+</head>
+<body>
+
+  <!-- Interactive Starfield Canvas -->
+  <canvas id="starfield"></canvas>
+
+  <!-- Top Ambient Navigation Bar -->
+  <header class="top-bar">
+    <div class="brand-mini">
+      <span class="moon-icon">🌙</span>
+      <span class="brand-title">Celestial Realm</span>
+    </div>
+    <div class="top-actions">
+      <!-- Sound FX Toggle -->
+      <button id="soundToggleBtn" class="icon-btn" title="Toggle Cosmic Sound FX" aria-label="Toggle Sound">
+        <i class="fas fa-volume-up" id="soundIcon"></i>
+      </button>
+
+      <!-- Theme Selector Dropdown -->
+      <div class="theme-selector">
+        <button id="themeMenuBtn" class="icon-btn" title="Change Theme Palette" aria-label="Themes">
+          <i class="fas fa-palette"></i>
+        </button>
+        <div class="theme-dropdown" id="themeDropdown">
+          <button class="theme-opt active" data-theme="cosmic">
+            <span class="dot violet"></span> Cosmic Aurora
+          </button>
+          <button class="theme-opt" data-theme="eclipse">
+            <span class="dot cyan"></span> Midnight Eclipse
+          </button>
+          <button class="theme-opt" data-theme="starlight">
+            <span class="dot gold"></span> Starlight Gold
+          </button>
+        </div>
+      </div>
+
+      <!-- Share Button -->
+      <button id="shareTreeBtn" class="icon-btn highlight" title="Share Portal" aria-label="Share">
+        <i class="fas fa-share-nodes"></i>
+      </button>
+
+      <!-- QR Code Modal Button -->
+      <button id="qrBtn" class="icon-btn" title="Show QR Code" aria-label="QR Code">
+        <i class="fas fa-qrcode"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Segmented Portal Navigation Tabs -->
+  <nav class="portal-nav-bar" id="portalTabs" aria-label="Portal Navigation">
+    <button class="portal-tab active" data-view="founder" id="tabFounder">
+      <span class="tab-icon">🌙</span> Kittie's Realm
+    </button>
+    <button class="portal-tab" data-view="team" id="tabTeam">
+      <span class="tab-icon">🚀</span> Space Cats Team
+      <span class="tab-badge">RECRUITING</span>
+    </button>
+    <button class="portal-tab" data-view="roster" id="tabRoster">
+      <span class="tab-icon">🐾</span> Crew Roster
+    </button>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="app-container">
+
+    <!-- ====================================================================
+         VIEW 1: KITTIE'S REALM (FOUNDER HUB)
+         ==================================================================== -->
+    <div class="portal-view active" id="viewFounder">
+      <!-- Profile Header Card -->
+      <section class="profile-card">
+        <div class="banner-wrapper">
+          <img src="./banner.jpg" alt="Cosmic Banner" class="banner-img">
+          <div class="banner-overlay"></div>
+        </div>
+
+        <div class="profile-body">
+          <!-- Interactive Avatar -->
+          <div class="avatar-container" id="avatarContainer" title="Click CelestialNightCat for starlight magic! ✨">
+            <div class="avatar-ring"></div>
+            <img src="./avatar.jpg" alt="CelestialNightCat Avatar" class="avatar-img" id="catAvatar">
+            <div class="cat-sparkle-badge">✨</div>
+          </div>
+
+          <!-- Identity -->
+          <div class="identity">
+            <h1 class="profile-name">
+              CelestialNightCat
+              <span class="verified-badge" title="Verified Celestial Creator">
+                <i class="fas fa-check-circle"></i>
+              </span>
+            </h1>
+            <p class="profile-handle">@celestialnightcat</p>
+            <p class="profile-bio">
+              Late night gamer cat with a desire to spread kindness in a dark world 🌙✨
+            </p>
+
+            <div class="business-email-tag">
+              <a href="mailto:celestialnightcat@gmail.com" title="Send email inquiry">
+                <i class="fas fa-envelope"></i> Business Inquiries: celestialnightcat@gmail.com
+              </a>
+            </div>
+            
+            <!-- Social Bar -->
+            <nav class="social-row" id="socialRow" aria-label="Social Profiles">
+              <!-- Dynamically populated -->
+            </nav>
+          </div>
+        </div>
+      </section>
+
+      <!-- Featured Stream Team Callout Banner -->
+      <section class="team-quick-callout" id="quickTeamBanner">
+        <div class="callout-glow"></div>
+        <div class="callout-icon">🚀</div>
+        <div class="callout-text">
+          <h4>Looking for the Stream Team?</h4>
+          <p>Join the <strong>Space Cats Program</strong> on Twitch! Coordinated raids, free assets & squad collabs.</p>
+        </div>
+        <button class="callout-btn" id="calloutSwitchBtn">
+          Explore Team <i class="fas fa-arrow-right"></i>
+        </button>
+      </section>
+
+      <!-- Current Flight Plan Card -->
+      <section class="flight-plan-card">
+        <div class="flight-header">
+          <div class="flight-title-group">
+            <i class="fas fa-rocket flight-icon"></i>
+            <div>
+              <h3>Current Flight Plan 🚀</h3>
+              <p class="flight-subtitle">Live Stream Schedule & Orbit Times</p>
+            </div>
+          </div>
+          <span class="pulse-live-badge">LIVE SCHEDULE</span>
+        </div>
+
+        <div class="schedule-grid">
+          <div class="schedule-item">
+            <div class="schedule-days"><i class="fas fa-calendar-week"></i> Sunday – Thursday</div>
+            <div class="schedule-time">Starts at 11:00 PM EST 🌙</div>
+            <span class="sched-tag live">LIVE REALM</span>
+          </div>
+
+          <div class="schedule-item">
+            <div class="schedule-days"><i class="fas fa-paw"></i> Friday & Saturday</div>
+            <div class="schedule-time">Off / Family Time 🐾</div>
+            <span class="sched-tag off">RESTING SANCTUARY</span>
+          </div>
+
+          <div class="schedule-item full-width">
+            <div class="schedule-days"><i class="fas fa-gas-pump"></i> Flight Duration</div>
+            <div class="schedule-time">Until the fuel runs out! ⛽</div>
+            <span class="sched-tag fuel">COSMIC ODYSSEY</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cosmic Orbit Cinema & Live Video Hub -->
+      <section class="cinema-section" id="cosmicCinema">
+        <div class="cinema-card">
+          <div class="cinema-header">
+            <div class="cinema-title-wrap">
+              <span class="live-orbit-dot"></span>
+              <div>
+                <h3 class="cinema-title">Cosmic Orbit Cinema 🎬</h3>
+                <p class="cinema-desc">Watch broadcasts & viral clips without leaving the realm</p>
+              </div>
+            </div>
+            <div class="cinema-mode-pills">
+              <button class="cinema-tab-btn active" id="cinemaLiveBtn" data-mode="stream">
+                <i class="fab fa-twitch"></i> Stream
+              </button>
+              <button class="cinema-tab-btn" id="cinemaClipBtn" data-mode="clip">
+                <i class="fas fa-film"></i> Clip
+              </button>
+            </div>
+          </div>
+
+          <div class="cinema-stage" id="cinemaStage">
+            <div class="cinema-preview" id="cinemaPreview">
+              <div class="cinema-overlay-backdrop"></div>
+              <div class="cinema-play-action">
+                <button class="cinema-launch-btn" id="cinemaLaunchBtn" aria-label="Launch Cinema Video">
+                  <i class="fas fa-play"></i>
+                </button>
+                <h4 id="cinemaStageTitle">CelestialNightCat Live Broadcast</h4>
+                <p id="cinemaStageDesc">Click to launch the live video feed</p>
+              </div>
+            </div>
+            <div class="cinema-player-frame" id="cinemaPlayerFrame" style="display: none;">
+              <!-- Dynamic iframe injected on user request -->
+            </div>
+          </div>
+
+          <div class="cinema-footer">
+            <a href="https://www.twitch.tv/celestialnightcat" target="_blank" rel="noopener" class="cinema-twitch-link">
+              <i class="fab fa-twitch"></i> Watch in Full Twitch Theater & Chat <i class="fas fa-external-link-alt"></i>
+            </a>
+            <button class="cinema-collapse-btn" id="cinemaCollapseBtn" style="display: none;">
+              <i class="fas fa-compress-alt"></i> Close Player
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Search & Filter Controls -->
+      <section class="controls-section">
+        <div class="search-box">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" id="searchInput" placeholder="Search TikTok, YouTube, Shorts, Stream..." aria-label="Search links">
+          <button id="clearSearch" class="clear-btn" aria-label="Clear Search"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="category-pills" id="categoryPills">
+          <button class="pill active" data-cat="all">All Realm Links</button>
+          <button class="pill" data-cat="Socials">Socials</button>
+          <button class="pill" data-cat="Video & Stream">Videos & Shorts</button>
+          <button class="pill" data-cat="Community">Community</button>
+          <button class="pill" data-cat="Store">Merch & Store</button>
+        </div>
+      </section>
+
+      <!-- Links Container -->
+      <section class="links-section" id="linksContainer">
+        <!-- Dynamically rendered links cards -->
+      </section>
+
+      <!-- Interactive Night Cat Message Box -->
+      <section class="cat-interactive-widget" id="interactiveWidget">
+        <div class="widget-icon">🐾</div>
+        <div class="widget-content">
+          <h4>Celestial Whispers</h4>
+          <p id="catQuote">"Welcome to the night sanctuary! Click any link to journey through the starlight."</p>
+        </div>
+        <button class="purr-btn" id="purrBtn" title="Pet Celestial Cat">
+          <i class="fas fa-heart"></i> Pet Cat
+        </button>
+      </section>
+    </div>
+
+    <!-- ====================================================================
+         VIEW 2: THE SPACE CATS PROGRAM (STREAM TEAM FUNNEL)
+         ==================================================================== -->
+    <div class="portal-view" id="viewTeam">
+      <!-- Team Hero Banner -->
+      <section class="team-hero-card">
+        <div class="team-hero-badge">
+          <i class="fab fa-twitch"></i> OFFICIAL TWITCH STREAM TEAM
+        </div>
+        <h2 class="team-hero-title">Space Cats Program 🚀</h2>
+        <p class="team-hero-sub">
+          A collaborative fleet of cozy, unhinged, and creative VTubers & variety streamers voyaging through the cosmos together.
+        </p>
+
+        <div class="hero-action-row">
+          <button class="primary-launch-btn" id="openAppBtn">
+            <i class="fas fa-rocket"></i> Apply for Flight Clearance
+          </button>
+          <a href="https://www.twitch.tv/team/spacecatsprogram" target="_blank" rel="noopener" class="secondary-team-btn">
+            <i class="fab fa-twitch"></i> View Twitch Team Page
+          </a>
+        </div>
+      </section>
+
+      <!-- The 3 Pillars Section -->
+      <section class="pillars-section">
+        <h3 class="section-title"><i class="fas fa-star"></i> Why Join The Fleet?</h3>
+        <p class="section-desc">We believe stream teams should provide real, tangible value every single week.</p>
+
+        <div class="pillars-grid" id="pillarsGrid">
+          <!-- Dynamically populated from teamData -->
+        </div>
+      </section>
+
+      <!-- Fleet Operations & Network Section -->
+      <section class="operations-section">
+        <h3 class="section-title"><i class="fas fa-satellite-dish"></i> Fleet Operations & Network</h3>
+        <p class="section-desc">From our weekly coordinated raid network to creator armory drops.</p>
+
+        <div class="operations-grid" id="operationsGrid">
+          <!-- Dynamically populated from teamData.operations -->
+        </div>
+      </section>
+
+      <!-- Expectations & Flight Checklist Card -->
+      <section class="expectations-card">
+        <div class="expectations-header">
+          <i class="fas fa-clipboard-check"></i>
+          <h4>Flight Requirements & Expectations</h4>
+        </div>
+        <ul class="expectations-list" id="expectationsList">
+          <!-- Populated from teamData -->
+        </ul>
+      </section>
+
+      <!-- Fleet Partnerships & Developer Collabs -->
+      <section class="collab-deck-card">
+        <div class="collab-content">
+          <div class="collab-badge"><i class="fas fa-handshake"></i> CREATOR & SPONSOR COLLABS</div>
+          <h3>Partner With The Space Cats Fleet</h3>
+          <p>Are you an indie game developer, VTuber artist, or gaming brand looking to collaborate on sponsored raids, community tournaments, or game showcases?</p>
+          <div class="collab-actions">
+            <a href="mailto:celestialnightcat@gmail.com?subject=Space%20Cats%20Fleet%20Collaboration" class="secondary-team-btn">
+              <i class="fas fa-envelope"></i> Contact Fleet Management
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Application Launchpad Banner -->
+      <section class="bottom-cta-card">
+        <div class="cta-inner">
+          <div class="cta-icon">🌌</div>
+          <h3>Ready To Voyage With Us?</h3>
+          <p>Flight clearance takes less than 3 minutes to submit. Mission Control reviews incoming applications weekly!</p>
+          <button class="primary-launch-btn big-glow" id="openAppBtnBottom">
+            <i class="fas fa-paper-plane"></i> Launch Your Application
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- ====================================================================
+         VIEW 3: THE CREW ROSTER (CELESTIAL FAMILY & SPACE CATS)
+         ==================================================================== -->
+    <div class="portal-view" id="viewRoster">
+      <section class="roster-hero-card">
+        <div class="roster-badge"><i class="fas fa-user-astronaut"></i> ACTIVE SQUADRON</div>
+        <h2 class="roster-title">The Space Cats Fleet Roster 🐾</h2>
+        <p class="roster-subtitle">
+          Meet the pilots, creators, and night cats exploring the digital cosmos. Drop by their broadcasts and join the starlight adventures!
+        </p>
+      </section>
+
+      <!-- Roster Grid -->
+      <section class="roster-grid" id="rosterGrid">
+        <!-- Dynamically rendered creator cards -->
+      </section>
+
+      <!-- Join the Roster Card -->
+      <section class="join-roster-callout">
+        <div class="join-icon">🚀</div>
+        <div class="join-text">
+          <h4>Want your channel card here?</h4>
+          <p>Apply for the Space Cats Program and fly alongside our squad on Twitch.</p>
+        </div>
+        <button class="callout-btn" id="rosterApplyBtn">
+          Apply Now <i class="fas fa-arrow-right"></i>
+        </button>
+      </section>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p>✨ Official Portal for <strong>CelestialNightCat</strong> & <strong>Space Cats Program</strong> ✨</p>
+      <div class="footer-links">
+        <button id="copyUrlFooter" class="footer-btn"><i class="fas fa-link"></i> Copy Bio Link</button>
+        <span class="sep">•</span>
+        <a href="#top" class="footer-btn"><i class="fas fa-arrow-up"></i> Top of Realm</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====================================================================
+       INTERACTIVE STREAM TEAM APPLICATION MODAL
+       ==================================================================== -->
+  <div class="modal-backdrop" id="appModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal-card wide-modal">
+      <button class="modal-close" id="closeAppModal" aria-label="Close Application"><i class="fas fa-times"></i></button>
+
+      <!-- Form View -->
+      <div class="app-form-wrapper" id="appFormWrapper">
+        <div class="form-header">
+          <div class="header-badge"><i class="fas fa-rocket"></i> FLIGHT CLEARANCE</div>
+          <h3 id="modalTitle">Space Cats Program Application</h3>
+          <p class="form-subtext">Fill out your telemetry below. Applications are reviewed directly by Mission Control.</p>
+        </div>
+
+        <form id="streamTeamForm" class="stream-team-form" novalidate>
+          <!-- Anti-Bot Honeypot Field (Hidden from humans) -->
+          <div class="drone-trap-box" aria-hidden="true">
+            <label for="drone_trap">Leave this blank</label>
+            <input type="text" name="drone_defense_code" id="drone_trap" tabindex="-1" autocomplete="off">
+          </div>
+
+          <!-- Anti-Bot Timestamp Token -->
+          <input type="hidden" name="form_opened_at" id="formOpenedAt" value="">
+
+          <!-- Step 1: Pilot Identity -->
+          <div class="form-section-title">
+            <span class="step-num">1</span> Pilot Identity & Channels
+          </div>
+
+          <div class="form-group">
+            <label for="streamerName">Streamer / VTuber Alias <span class="req">*</span></label>
+            <input type="text" id="streamerName" name="streamer_name" placeholder="e.g. StarlightNova" required maxlength="50">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="twitchUrl">Twitch Channel URL <span class="req">*</span></label>
+              <input type="url" id="twitchUrl" name="twitch_url" placeholder="https://twitch.tv/..." required maxlength="100">
+            </div>
+            <div class="form-group flex-1">
+              <label for="discordHandle">Discord Username <span class="req">*</span></label>
+              <input type="text" id="discordHandle" name="discord_handle" placeholder="e.g. starlight_nova" required maxlength="50">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="contactEmail">Contact Email (for flight notifications & team invite) <span class="req">*</span></label>
+            <input type="email" id="contactEmail" name="contact_email" placeholder="e.g. starlight@gmail.com" required maxlength="100">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="timezoneSchedule">Timezone & Usual Broadcast Days <span class="req">*</span></label>
+              <input type="text" id="timezoneSchedule" name="timezone_schedule" placeholder="e.g. EST / Mon, Wed, Fri evenings" required maxlength="100">
+            </div>
+            <div class="form-group flex-1">
+              <label for="streamArchetype">Content Archetype <span class="req">*</span></label>
+              <select id="streamArchetype" name="archetype" required>
+                <option value="">Select your archetype...</option>
+                <option value="2D VTuber (Live2D)">🐱 2D VTuber (Live2D)</option>
+                <option value="3D VTuber (VRChat / 3D)">🪐 3D VTuber (3D / VRChat)</option>
+                <option value="PNGtuber / Reactive">🎨 PNGtuber / Reactive Avatar</option>
+                <option value="Cozy Gamer / Variety">🎮 Cozy Gamer / Variety Streamer</option>
+                <option value="Creative / Art / Music">🖌️ Creative / Art / Music Streamer</option>
+                <option value="Other / Hybrid">✨ Other / Cosmic Hybrid</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Step 2: Telemetry & Vibe -->
+          <div class="form-section-title">
+            <span class="step-num">2</span> Flight Telemetry & Habits
+          </div>
+
+          <div class="form-group">
+            <label for="streamFrequency">How often do you stream per week? <span class="req">*</span></label>
+            <select id="streamFrequency" name="stream_frequency" required>
+              <option value="">Select frequency...</option>
+              <option value="1-2 times per week">1–2 times per week</option>
+              <option value="3-4 times per week">3–4 times per week (Recommended)</option>
+              <option value="5+ times per week">5+ times per week (Full-time)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="raidRoutine">What is your end-of-stream raid routine? <span class="req">*</span></label>
+            <textarea id="raidRoutine" name="raid_routine" rows="2" placeholder="Who do you usually raid, and what is your raid message?" required maxlength="500"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="whyJoin">Why do you want to join the Space Cats Program? <span class="req">*</span></label>
+            <textarea id="whyJoin" name="why_join" rows="2" placeholder="What draws you to Celeste and our cosmic crew?" required maxlength="800"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="superpower">What is your creator superpower? <span class="req">*</span></label>
+            <input type="text" id="superpower" name="superpower" placeholder="e.g. Unhinged comedy, hyping up chat, voice acting, cozy listening" required maxlength="200">
+          </div>
+
+          <!-- Step 3: Flight Oath -->
+          <div class="form-section-title">
+            <span class="step-num">3</span> The Flight Oath
+          </div>
+
+          <div class="checkbox-group">
+            <label class="check-container">
+              <input type="checkbox" id="pledgeRaid" name="pledge_raid" required>
+              <span class="checkmark"></span>
+              <span class="check-text"><strong>Raid Commitment:</strong> I pledge to actively support fellow Space Cats by raiding live team members when ending my streams whenever possible.</span>
+            </label>
+
+            <label class="check-container">
+              <input type="checkbox" id="pledgeSafety" name="pledge_safety" required>
+              <span class="checkmark"></span>
+              <span class="check-text"><strong>Community Standards:</strong> I maintain an inclusive, respectful, and drama-free space with zero tolerance for hate speech or toxicity.</span>
+            </label>
+
+            <label class="check-container">
+              <input type="checkbox" id="pledgeDiscord" name="pledge_discord" required>
+              <span class="checkmark"></span>
+              <span class="check-text"><strong>Active Participation:</strong> I understand that being part of the team means hanging out in Discord and supporting the crew, not just having a badge.</span>
+            </label>
+          </div>
+
+          <!-- Error Feedback Container -->
+          <div class="form-error-banner" id="formErrorBanner" style="display: none;"></div>
+
+          <!-- Submit Button -->
+          <div class="form-actions">
+            <button type="submit" class="submit-app-btn" id="submitAppBtn">
+              <span class="btn-text"><i class="fas fa-paper-plane"></i> Transmit Application</span>
+              <span class="btn-spinner" style="display: none;"><i class="fas fa-circle-notch fa-spin"></i> Transmitting...</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Success Confirmation View -->
+      <div class="app-success-wrapper" id="appSuccessWrapper" style="display: none;">
+        <div class="success-rocket-icon">🚀</div>
+        <h3>Transmission Confirmed!</h3>
+        <p class="success-sub">Your flight application has been safely beamed to Mission Control.</p>
+
+        <div class="ticket-card">
+          <span class="ticket-label">FLIGHT CLEARANCE TICKET</span>
+          <div class="ticket-code" id="ticketCodeDisplay">#ST-2026-0042</div>
+          <p class="ticket-desc">Please save this ticket code for your records.</p>
+        </div>
+
+        <div class="success-next-steps">
+          <h4>Next Steps:</h4>
+          <ul>
+            <li><i class="fas fa-check"></i> Commanders review incoming files in <code>#🔐﹒team-app-reviews</code>.</li>
+            <li><i class="fas fa-check"></i> Review turnaround is typically 48–72 hours.</li>
+            <li><i class="fas fa-check"></i> Watch your contact email for your official flight clearance invite!</li>
+          </ul>
+        </div>
+
+        <button class="callout-btn" id="successDoneBtn">Return to Portal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Code Modal -->
+  <div class="modal-backdrop" id="qrModal">
+    <div class="modal-card">
+      <button class="modal-close" id="closeQrModal"><i class="fas fa-times"></i></button>
+      <div class="qr-content">
+        <div class="modal-avatar">
+          <img src="./avatar.jpg" alt="CelestialNightCat">
+        </div>
+        <h3>Scan to Enter Realm</h3>
+        <p>Scan this QR code with any smartphone camera to open CelestialNightCat's Link Tree!</p>
+        <div class="qr-code-wrapper" id="qrCodeBox">
+          <!-- Dynamic SVG QR Code -->
+        </div>
+        <button id="downloadQrBtn" class="action-btn"><i class="fas fa-download"></i> Save QR Code</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Toast Modal -->
+  <div class="toast" id="toast">
+    <i class="fas fa-sparkles toast-icon"></i>
+    <span id="toastMsg">Link copied to clipboard! ✨</span>
+  </div>
+
+  <!-- Main JavaScript File -->
+
+</body>
+</html>
