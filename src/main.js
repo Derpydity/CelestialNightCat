@@ -1,11 +1,17 @@
 import { profileData, linksData, socialBar, teamData, rosterData } from './links.js';
 
-// Global App State
-let soundEnabled = true;
+// Global App State with LocalStorage Persistence
+const savedTheme = localStorage.getItem('cnc_theme') || 'cosmic';
+const savedSound = localStorage.getItem('cnc_sound');
+
+let soundEnabled = savedSound !== null ? savedSound === 'true' : true;
 let activeCategory = 'all';
-let currentTheme = 'cosmic';
+let currentTheme = savedTheme;
 let audioCtx = null;
 let currentView = 'founder';
+
+// Apply saved theme immediately
+document.documentElement.setAttribute('data-theme', currentTheme);
 
 // Quotes for Celestial Whispers Widget
 const catQuotes = [
@@ -67,6 +73,22 @@ function initStarfield() {
       speed: Math.random() * 0.3 + 0.05,
       direction: Math.random() * Math.PI * 2
     });
+  }
+
+  // Check user motion preferences for accessibility
+  const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    ctx.clearRect(0, 0, width, height);
+    for (let star of stars) {
+      ctx.save();
+      ctx.globalAlpha = star.alpha;
+      ctx.fillStyle = star.color;
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+    return; // Do not run animation loop
   }
 
   // Mouse trail effect
@@ -164,9 +186,17 @@ function initStarfield() {
 function setupAudioFX() {
   const toggleBtn = document.getElementById('soundToggleBtn');
   const soundIcon = document.getElementById('soundIcon');
+  if (!toggleBtn || !soundIcon) return;
+
+  // Restore saved icon state
+  soundIcon.className = soundEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
 
   toggleBtn.addEventListener('click', () => {
     soundEnabled = !soundEnabled;
+    try {
+      localStorage.setItem('cnc_sound', String(soundEnabled));
+    } catch (e) {}
+
     if (soundEnabled) {
       soundIcon.className = 'fas fa-volume-up';
       playChime(600, 800);
@@ -362,6 +392,17 @@ function setupThemeSelector() {
   const dropdown = document.getElementById('themeDropdown');
   const themeOpts = document.querySelectorAll('.theme-opt');
 
+  if (!menuBtn || !dropdown) return;
+
+  // Sync active class with saved currentTheme
+  themeOpts.forEach(opt => {
+    if (opt.getAttribute('data-theme') === currentTheme) {
+      opt.classList.add('active');
+    } else {
+      opt.classList.remove('active');
+    }
+  });
+
   menuBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     dropdown.classList.toggle('open');
@@ -379,6 +420,9 @@ function setupThemeSelector() {
       const theme = opt.getAttribute('data-theme');
       document.documentElement.setAttribute('data-theme', theme);
       currentTheme = theme;
+      try {
+        localStorage.setItem('cnc_theme', theme);
+      } catch (e) {}
 
       playChime(650, 900);
       showToast(`Switched to ${opt.textContent.trim()} theme! ✨`);
@@ -387,7 +431,7 @@ function setupThemeSelector() {
 }
 
 /* ==========================================================================
-   6. Dynamic QR Code Modal Generator (Pure SVG)
+   6. Real Scannable QR Code Modal Generator
    ========================================================================== */
 function setupQrModal() {
   const qrBtn = document.getElementById('qrBtn');
@@ -395,15 +439,19 @@ function setupQrModal() {
   const closeBtn = document.getElementById('closeQrModal');
   const qrBox = document.getElementById('qrCodeBox');
 
+  if (!qrBtn || !qrModal) return;
+
   qrBtn.addEventListener('click', () => {
-    generateSVGQR(window.location.href, qrBox);
+    generateRealQRCode('https://spacenightcats.vercel.app/', qrBox);
     qrModal.classList.add('active');
     playChime(520, 840);
   });
 
-  closeBtn.addEventListener('click', () => {
-    qrModal.classList.remove('active');
-  });
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      qrModal.classList.remove('active');
+    });
+  }
 
   qrModal.addEventListener('click', (e) => {
     if (e.target === qrModal) qrModal.classList.remove('active');
@@ -411,21 +459,24 @@ function setupQrModal() {
 
   const downloadBtn = document.getElementById('downloadQrBtn');
   if (downloadBtn) {
-    downloadBtn.addEventListener('click', () => {
-      const svg = qrBox ? qrBox.querySelector('svg') : null;
-      if (!svg) return;
+    downloadBtn.addEventListener('click', async () => {
       playChime(600, 900);
-      const svgData = new XMLSerializer().serializeToString(svg);
-      const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'celestial-night-cat-portal-qr.svg';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      showToast('QR Code downloaded! ✨');
+      try {
+        const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=https%3A%2F%2Fspacenightcats.vercel.app%2F&color=070814&bgcolor=ffffff&qzone=2&format=png';
+        const res = await fetch(qrUrl);
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'space-cats-portal-qr.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Official QR Code downloaded! ✨');
+      } catch (err) {
+        window.open('https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=https%3A%2F%2Fspacenightcats.vercel.app%2F', '_blank');
+      }
     });
   }
 
@@ -450,49 +501,19 @@ function setupQrModal() {
   });
 }
 
-// Simple Vector QR Code Generator placeholder renderer for instant sharp SVG output
-function generateSVGQR(text, container) {
-  const size = 180;
-  // Dynamic high contrast QR pattern representation
-  let dots = '';
-  const grid = 21;
-  const cellSize = size / grid;
-
-  for (let r = 0; r < grid; r++) {
-    for (let c = 0; c < grid; c++) {
-      // Create position detection patterns in corners
-      const isCorner1 = (r < 7 && c < 7);
-      const isCorner2 = (r < 7 && c >= grid - 7);
-      const isCorner3 = (r >= grid - 7 && c < 7);
-
-      if (isCorner1 || isCorner2 || isCorner3) {
-        // Inner outer border handled by static paths
-        continue;
-      }
-
-      // Pseudo hash data pattern
-      const val = (r * 7 + c * 13 + text.length * 3) % 5;
-      if (val > 1) {
-        dots += `<rect x="${c * cellSize + 1}" y="${r * cellSize + 1}" width="${cellSize - 1}" height="${cellSize - 1}" rx="2" fill="#0b0c1b"/>`;
-      }
-    }
-  }
-
-  // Draw 3 standard Finder Patterns
-  const drawFinder = (x, y) => `
-    <rect x="${x}" y="${y}" width="${7 * cellSize}" height="${7 * cellSize}" rx="6" fill="#0b0c1b"/>
-    <rect x="${x + cellSize}" y="${y + cellSize}" width="${5 * cellSize}" height="${5 * cellSize}" rx="4" fill="#ffffff"/>
-    <rect x="${x + 2 * cellSize}" y="${y + 2 * cellSize}" width="${3 * cellSize}" height="${3 * cellSize}" rx="2" fill="#9d4edd"/>
-  `;
-
-  const finders = drawFinder(0, 0) + drawFinder((grid - 7) * cellSize, 0) + drawFinder(0, (grid - 7) * cellSize);
-
+function generateRealQRCode(url, container) {
+  if (!container) return;
+  const encoded = encodeURIComponent(url);
   container.innerHTML = `
-    <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
-      <rect width="${size}" height="${size}" fill="#ffffff"/>
-      ${finders}
-      ${dots}
-    </svg>
+    <img 
+      src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encoded}&color=070814&bgcolor=ffffff&qzone=1" 
+      alt="Real Scannable QR Code for ${url}" 
+      class="real-qr-code-img"
+      id="activeQrImg"
+      width="180" 
+      height="180" 
+      style="border-radius: 12px; background: #ffffff; padding: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: block; margin: 0 auto;"
+    />
   `;
 }
 
@@ -831,11 +852,10 @@ function setupApplicationModal() {
         return;
       }
 
-      // 2. Anti-Bot Time-To-Submit Verification (< 3.5 seconds is impossible for a human)
+      // 2. Anti-Bot Time-To-Submit Verification (< 1.2 seconds is impossible for a human)
       const elapsed = Date.now() - modalOpenedTime;
-      if (elapsed < 3500) {
-        console.warn('Transmission too fast. Bot filter active.');
-        showFakeSuccess();
+      if (elapsed < 1200) {
+        showError("Please take a moment to review your flight application before transmitting.");
         return;
       }
 
@@ -895,12 +915,11 @@ function setupApplicationModal() {
       submitBtn.disabled = true;
       if (btnText) btnText.style.display = 'none';
       if (btnSpinner) btnSpinner.style.display = 'inline-flex';
+      if (errorBanner) errorBanner.style.display = 'none';
 
       try {
-        // Send to Server-Side Relay on Hermes VPS (works on Vercel, GitHub Pages, and local)
-        const apiUrl = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.includes('trycloudflare.com'))
-          ? '/api/team-apply'
-          : 'https://autumn-publication-authentic-southwest.trycloudflare.com/api/team-apply';
+        // Direct relative endpoint on Vercel and local dev
+        const apiUrl = '/api/team-apply';
 
         const response = await fetch(apiUrl, {
           method: 'POST',
@@ -909,23 +928,36 @@ function setupApplicationModal() {
         });
 
         if (!response.ok) {
-          console.warn('Relay endpoint returned non-200. Storing in local queue.');
+          throw new Error(`Server returned HTTP ${response.status}`);
         }
-      } catch (err) {
-        // Graceful fallback for offline / static preview mode
-        console.info('Backend relay offline; flight data verified locally.', err);
-      } finally {
-        submitBtn.disabled = false;
-        if (btnText) btnText.style.display = 'inline-flex';
-        if (btnSpinner) btnSpinner.style.display = 'none';
 
-        // Display Success State
-        if (ticketDisplay) ticketDisplay.textContent = ticketId;
+        const resData = await response.json();
+        const confirmedTicket = resData.ticket_id || ticketId;
+
+        // Display Success State ONLY upon true server confirmation
+        if (ticketDisplay) ticketDisplay.textContent = confirmedTicket;
         if (formWrapper) formWrapper.style.display = 'none';
         if (successWrapper) successWrapper.style.display = 'block';
         playPurrSound();
         playChime(500, 1000);
         form.reset();
+
+      } catch (err) {
+        console.error('Application transmission error:', err);
+        // Persist to localStorage backup queue so applicant data is NEVER lost
+        try {
+          const queue = JSON.parse(localStorage.getItem('cnc_pending_flight_apps') || '[]');
+          queue.push(payload);
+          localStorage.setItem('cnc_pending_flight_apps', JSON.stringify(queue));
+        } catch (e) {
+          console.warn('Could not save to local queue:', e);
+        }
+
+        showError("Flight dispatch is momentarily offline. Your telemetry has been saved locally! Please retry in a moment or DM @CelestialNightCat on Discord.");
+      } finally {
+        submitBtn.disabled = false;
+        if (btnText) btnText.style.display = 'inline-flex';
+        if (btnSpinner) btnSpinner.style.display = 'none';
       }
 
       function showError(msg) {
@@ -997,7 +1029,7 @@ function setupCosmicCinema() {
       if (currentMode === 'stream') {
         playerFrame.innerHTML = `
           <iframe
-            src="https://player.twitch.tv/?channel=celestialnightcat&${parents}&autoplay=true&muted=false"
+            src="https://player.twitch.tv/?channel=celestialnightcat&${parents}&autoplay=true&muted=true"
             height="100%"
             width="100%"
             allowfullscreen="true"

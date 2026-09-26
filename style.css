@@ -1547,8 +1547,7 @@ body {
   border-color: rgba(0, 245, 212, 0.6);
 }
 
-.roster-avatar-fallback.spacecat,
-.roster-avatar-fallback.cadet {
+.roster-avatar-fallback.spacecat {
   background: linear-gradient(135deg, #fee440, #00f5d4);
   color: #1a1a2e;
   border-color: rgba(254, 228, 64, 0.6);
@@ -1603,8 +1602,7 @@ body {
   border: 1px solid rgba(255, 209, 102, 0.6);
 }
 
-.roster-role-tag.spacecat,
-.roster-role-tag.cadet {
+.roster-role-tag.spacecat {
   background: rgba(0, 245, 212, 0.2);
   color: #5eead4;
   border: 1px solid rgba(0, 245, 212, 0.5);
