@@ -159,3 +159,78 @@ export const socialBar = [
   { name: "YouTube Shorts", icon: "fas fa-bolt", url: "https://www.youtube.com/@Celestialnightcats/shorts" },
   { name: "Email Inquiries", icon: "fas fa-envelope", url: "mailto:celestialnightcat@gmail.com" }
 ];
+
+export const teamData = {
+  name: "Space Cats Program",
+  tagline: "A collaborative fleet of cozy, unhinged, and creative VTubers & streamers exploring the cosmos together.",
+  badge: "OFFICIAL TWITCH STREAM TEAM",
+  twitchUrl: "https://www.twitch.tv/team/spacecatsprogram",
+  discordUrl: "https://discord.gg/xkttEuvkkV",
+  pillars: [
+    {
+      icon: "fas fa-sync-alt",
+      title: "Coordinated Raid Network",
+      desc: "We never end streams into the void. When you wrap up, we actively hand off viewers and raid fellow crew members live in orbit.",
+      accent: "cyan"
+    },
+    {
+      icon: "fas fa-box-open",
+      title: "The Fleet Armory",
+      desc: "Weekly drops of curated free VTuber hand assets, props, overlays, and DMCA-safe music packs in Discord.",
+      accent: "purple"
+    },
+    {
+      icon: "fas fa-gamepad",
+      title: "Squad Collabs & Support",
+      desc: "Group multiplayer game nights, charity raids, and hands-on help with OBS setups, audio routing, and tracking.",
+      accent: "gold"
+    }
+  ],
+  expectations: [
+    "Active Streamer: Broadcast at least 2+ times per week.",
+    "The Raid Pledge: Committed to raiding live team members when concluding streams.",
+    "Crew Spirit: Positive, drama-free energy & active participation in Discord."
+  ]
+};
+
+export const rosterData = [
+  {
+    id: "celestial-founder",
+    name: "CelestialNightCat",
+    role: "Founder & Fleet Commander 👑",
+    roleType: "commander",
+    avatar: "/avatar.jpg",
+    bio: "Late night gamer cat with a desire to spread kindness in a dark world. Variety gaming, reactions & starlight adventures.",
+    twitch: "https://www.twitch.tv/celestialnightcat",
+    tiktok: "https://www.tiktok.com/@celestialnightcat",
+    youtube: "https://www.youtube.com/@CelestialNightCat",
+    live: true,
+    game: "Cursed Reactions / Variety",
+    tags: ["Live2D", "Space Cat", "Nocturnal"]
+  },
+  {
+    id: "sneako-cocaptain",
+    name: "Sneako",
+    role: "Co-Captain 🎖️",
+    roleType: "captain",
+    avatar: "/avatar_original.png",
+    bio: "Community co-captain, tactical wingman, and stream coordinator keeping the fleet on course.",
+    twitch: "https://www.twitch.tv",
+    live: false,
+    game: "Community Gaming",
+    tags: ["Leadership", "Collabs", "Tactics"]
+  },
+  {
+    id: "cadet-squadron",
+    name: "Space Cat Cadets",
+    role: "Flight Crew & Streamers 🚀",
+    roleType: "cadet",
+    avatar: "/avatar.jpg",
+    bio: "Our growing squadron of creative VTubers, PNGtubers, and variety broadcasters voyaging through the stars.",
+    twitch: "https://www.twitch.tv/team/spacecatsprogram",
+    live: false,
+    game: "Indie / Multiplayer",
+    tags: ["VTuber", "Raid Chain", "Cozy"]
+  }
+];
+

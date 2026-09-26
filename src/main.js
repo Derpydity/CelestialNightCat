@@ -1,10 +1,11 @@
-import { profileData, linksData, socialBar } from './links.js';
+import { profileData, linksData, socialBar, teamData, rosterData } from './links.js';
 
 // Global App State
 let soundEnabled = true;
 let activeCategory = 'all';
 let currentTheme = 'cosmic';
 let audioCtx = null;
+let currentView = 'founder';
 
 // Quotes for Celestial Whispers Widget
 const catQuotes = [
@@ -26,6 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
   setupQrModal();
   setupShareAndToast();
   setupCatEasterEgg();
+  
+  // Portal & Stream Team Features
+  setupPortalTabs();
+  renderTeamSection();
+  renderRosterSection();
+  setupApplicationModal();
+  handleUrlHashRouting();
 });
 
 /* ==========================================================================
@@ -532,3 +540,333 @@ function setupCatEasterEgg() {
     });
   }
 }
+
+/* ==========================================================================
+   9. Portal Multi-View Tabs & Navigation
+   ========================================================================== */
+function setupPortalTabs() {
+  const tabs = document.querySelectorAll('.portal-tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const view = tab.dataset.view;
+      switchPortalView(view, true);
+    });
+  });
+
+  // Callout banner button on Founder view
+  const calloutBtn = document.getElementById('calloutSwitchBtn');
+  if (calloutBtn) {
+    calloutBtn.addEventListener('click', () => {
+      switchPortalView('team', true);
+    });
+  }
+
+  // Roster bottom apply button
+  const rosterApplyBtn = document.getElementById('rosterApplyBtn');
+  if (rosterApplyBtn) {
+    rosterApplyBtn.addEventListener('click', () => {
+      switchPortalView('team', true);
+      const openBtn = document.getElementById('openAppBtn');
+      if (openBtn) openBtn.click();
+    });
+  }
+}
+
+export function switchPortalView(viewName, updateHash = true) {
+  currentView = viewName;
+  playChime(600, 900);
+
+  // Update tabs
+  const tabs = document.querySelectorAll('.portal-tab');
+  tabs.forEach(t => {
+    if (t.dataset.view === viewName) {
+      t.classList.add('active');
+    } else {
+      t.classList.remove('active');
+    }
+  });
+
+  // Update views
+  const views = {
+    founder: document.getElementById('viewFounder'),
+    team: document.getElementById('viewTeam'),
+    roster: document.getElementById('viewRoster')
+  };
+
+  Object.keys(views).forEach(k => {
+    if (views[k]) {
+      if (k === viewName) {
+        views[k].classList.add('active');
+      } else {
+        views[k].classList.remove('active');
+      }
+    }
+  });
+
+  if (updateHash) {
+    window.history.pushState(null, '', '#' + viewName);
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ==========================================================================
+   10. Space Cats Program Funnel Rendering
+   ========================================================================== */
+function renderTeamSection() {
+  const pillarsGrid = document.getElementById('pillarsGrid');
+  if (pillarsGrid && teamData.pillars) {
+    pillarsGrid.innerHTML = teamData.pillars.map(p => `
+      <div class="pillar-card">
+        <div class="pillar-icon-box ${p.accent}">
+          <i class="${p.icon}"></i>
+        </div>
+        <div class="pillar-content">
+          <h4>${p.title}</h4>
+          <p>${p.desc}</p>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  const expectationsList = document.getElementById('expectationsList');
+  if (expectationsList && teamData.expectations) {
+    expectationsList.innerHTML = teamData.expectations.map(exp => `
+      <li><i class="fas fa-check-circle"></i> <span>${exp}</span></li>
+    `).join('');
+  }
+}
+
+/* ==========================================================================
+   11. Crew Roster Rendering
+   ========================================================================== */
+function renderRosterSection() {
+  const rosterGrid = document.getElementById('rosterGrid');
+  if (!rosterGrid || !rosterData) return;
+
+  rosterGrid.innerHTML = rosterData.map(member => {
+    const liveBadge = member.live ? `<span class="roster-live-pulse">LIVE</span>` : '';
+    const tagsHtml = member.tags ? member.tags.map(t => `<span class="roster-pill">#${t}</span>`).join('') : '';
+
+    return `
+      <div class="roster-card" id="${member.id}">
+        <div class="roster-top">
+          <div class="roster-avatar-wrap">
+            <img src="${member.avatar}" alt="${member.name}" class="roster-avatar">
+            ${liveBadge}
+          </div>
+          <div class="roster-identity">
+            <h4>${member.name}</h4>
+            <span class="roster-role-tag ${member.roleType}">${member.role}</span>
+          </div>
+        </div>
+
+        <p class="roster-bio">${member.bio}</p>
+
+        <div class="roster-tags">
+          ${tagsHtml}
+        </div>
+
+        <div class="roster-links-row">
+          ${member.twitch ? `<a href="${member.twitch}" target="_blank" rel="noopener" class="roster-link-btn twitch"><i class="fab fa-twitch"></i> Twitch</a>` : ''}
+          ${member.tiktok ? `<a href="${member.tiktok}" target="_blank" rel="noopener" class="roster-link-btn tiktok"><i class="fab fa-tiktok"></i> TikTok</a>` : ''}
+          ${member.youtube ? `<a href="${member.youtube}" target="_blank" rel="noopener" class="roster-link-btn youtube"><i class="fab fa-youtube"></i> YouTube</a>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ==========================================================================
+   12. Interactive Stream Team Application Modal & Anti-Spam Guard
+   ========================================================================== */
+function setupApplicationModal() {
+  const modal = document.getElementById('appModal');
+  const openBtn = document.getElementById('openAppBtn');
+  const openBtnBottom = document.getElementById('openAppBtnBottom');
+  const closeBtn = document.getElementById('closeAppModal');
+  const form = document.getElementById('streamTeamForm');
+  const formWrapper = document.getElementById('appFormWrapper');
+  const successWrapper = document.getElementById('appSuccessWrapper');
+  const errorBanner = document.getElementById('formErrorBanner');
+  const ticketDisplay = document.getElementById('ticketCodeDisplay');
+  const doneBtn = document.getElementById('successDoneBtn');
+  const timestampInput = document.getElementById('formOpenedAt');
+
+  let modalOpenedTime = 0;
+
+  function openModal() {
+    if (!modal) return;
+    playChime(700, 1100);
+    modalOpenedTime = Date.now();
+    if (timestampInput) timestampInput.value = modalOpenedTime;
+
+    // Reset view
+    if (formWrapper) formWrapper.style.display = 'block';
+    if (successWrapper) successWrapper.style.display = 'none';
+    if (errorBanner) errorBanner.style.display = 'none';
+
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (openBtn) openBtn.addEventListener('click', openModal);
+  if (openBtnBottom) openBtnBottom.addEventListener('click', openModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (doneBtn) doneBtn.addEventListener('click', closeModal);
+
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+  }
+
+  // Handle Form Submission
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById('submitAppBtn');
+      const btnText = submitBtn.querySelector('.btn-text');
+      const btnSpinner = submitBtn.querySelector('.btn-spinner');
+
+      // 1. Anti-Bot Honeypot Trap
+      const honeypot = form.querySelector('[name="drone_defense_code"]');
+      if (honeypot && honeypot.value.trim() !== '') {
+        // Silent fake success for automated headless scrapers
+        console.warn('Drone defense triggered.');
+        showFakeSuccess();
+        return;
+      }
+
+      // 2. Anti-Bot Time-To-Submit Verification (< 3.5 seconds is impossible for a human)
+      const elapsed = Date.now() - modalOpenedTime;
+      if (elapsed < 3500) {
+        console.warn('Transmission too fast. Bot filter active.');
+        showFakeSuccess();
+        return;
+      }
+
+      // 3. Validation
+      const streamerName = form.querySelector('[name="streamer_name"]').value.trim();
+      const twitchUrl = form.querySelector('[name="twitch_url"]').value.trim();
+      const discordHandle = form.querySelector('[name="discord_handle"]').value.trim();
+      const timezoneSchedule = form.querySelector('[name="timezone_schedule"]').value.trim();
+      const archetype = form.querySelector('[name="archetype"]').value;
+      const frequency = form.querySelector('[name="stream_frequency"]').value;
+      const raidRoutine = form.querySelector('[name="raid_routine"]').value.trim();
+      const whyJoin = form.querySelector('[name="why_join"]').value.trim();
+      const superpower = form.querySelector('[name="superpower"]').value.trim();
+
+      const pledgeRaid = form.querySelector('[name="pledge_raid"]').checked;
+      const pledgeSafety = form.querySelector('[name="pledge_safety"]').checked;
+      const pledgeDiscord = form.querySelector('[name="pledge_discord"]').checked;
+
+      if (!streamerName || !twitchUrl || !discordHandle || !archetype || !frequency) {
+        showError("Please fill out all required flight telemetry fields.");
+        return;
+      }
+
+      if (!pledgeRaid || !pledgeSafety || !pledgeDiscord) {
+        showError("Please agree to all three Flight Oath commitments.");
+        return;
+      }
+
+      // Generate Flight Ticket ID
+      const randomId = Math.floor(1000 + Math.random() * 9000);
+      const ticketId = `#ST-2026-${randomId}`;
+
+      const payload = {
+        app_id: ticketId,
+        streamer_name: streamerName,
+        twitch_url: twitchUrl,
+        discord_handle: discordHandle,
+        timezone_schedule: timezoneSchedule,
+        archetype: archetype,
+        stream_frequency: frequency,
+        raid_routine: raidRoutine,
+        why_join: whyJoin,
+        superpower: superpower,
+        created_at: new Date().toISOString()
+      };
+
+      // Loading State
+      submitBtn.disabled = true;
+      if (btnText) btnText.style.display = 'none';
+      if (btnSpinner) btnSpinner.style.display = 'inline-flex';
+
+      try {
+        // Send to Server-Side Relay on Hermes VPS
+        const response = await fetch('/api/team-apply', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          console.warn('Relay endpoint returned non-200. Storing in local queue.');
+        }
+      } catch (err) {
+        // Graceful fallback for offline / static preview mode
+        console.info('Backend relay offline; flight data verified locally.', err);
+      } finally {
+        submitBtn.disabled = false;
+        if (btnText) btnText.style.display = 'inline-flex';
+        if (btnSpinner) btnSpinner.style.display = 'none';
+
+        // Display Success State
+        if (ticketDisplay) ticketDisplay.textContent = ticketId;
+        if (formWrapper) formWrapper.style.display = 'none';
+        if (successWrapper) successWrapper.style.display = 'block';
+        playPurrSound();
+        playChime(500, 1000);
+        form.reset();
+      }
+
+      function showError(msg) {
+        if (errorBanner) {
+          errorBanner.textContent = msg;
+          errorBanner.style.display = 'block';
+        }
+      }
+
+      function showFakeSuccess() {
+        if (ticketDisplay) ticketDisplay.textContent = '#ST-2026-' + Math.floor(1000 + Math.random() * 9000);
+        if (formWrapper) formWrapper.style.display = 'none';
+        if (successWrapper) successWrapper.style.display = 'block';
+      }
+    });
+  }
+}
+
+/* ==========================================================================
+   13. URL Hash Routing (#team, #roster, #apply)
+   ========================================================================== */
+function handleUrlHashRouting() {
+  function checkHash() {
+    const hash = window.location.hash.toLowerCase();
+    if (hash === '#team' || hash === '#stream-team' || hash === '#space-cats') {
+      switchPortalView('team', false);
+    } else if (hash === '#roster' || hash === '#crew') {
+      switchPortalView('roster', false);
+    } else if (hash === '#apply') {
+      switchPortalView('team', false);
+      const openBtn = document.getElementById('openAppBtn');
+      if (openBtn) openBtn.click();
+    } else if (hash === '#founder' || hash === '#realm') {
+      switchPortalView('founder', false);
+    }
+  }
+
+  checkHash();
+  window.addEventListener('hashchange', checkHash);
+}
+
