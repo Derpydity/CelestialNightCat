@@ -176,6 +176,54 @@
         </div>
       </section>
 
+      <!-- Cosmic Orbit Cinema & Live Video Hub -->
+      <section class="cinema-section" id="cosmicCinema">
+        <div class="cinema-card">
+          <div class="cinema-header">
+            <div class="cinema-title-wrap">
+              <span class="live-orbit-dot"></span>
+              <div>
+                <h3 class="cinema-title">Cosmic Orbit Cinema 🎬</h3>
+                <p class="cinema-desc">Watch broadcasts & viral clips without leaving the realm</p>
+              </div>
+            </div>
+            <div class="cinema-mode-pills">
+              <button class="cinema-tab-btn active" id="cinemaLiveBtn" data-mode="stream">
+                <i class="fab fa-twitch"></i> Stream
+              </button>
+              <button class="cinema-tab-btn" id="cinemaClipBtn" data-mode="clip">
+                <i class="fas fa-film"></i> Clip
+              </button>
+            </div>
+          </div>
+
+          <div class="cinema-stage" id="cinemaStage">
+            <div class="cinema-preview" id="cinemaPreview">
+              <div class="cinema-overlay-backdrop"></div>
+              <div class="cinema-play-action">
+                <button class="cinema-launch-btn" id="cinemaLaunchBtn" aria-label="Launch Cinema Video">
+                  <i class="fas fa-play"></i>
+                </button>
+                <h4 id="cinemaStageTitle">CelestialNightCat Live Broadcast</h4>
+                <p id="cinemaStageDesc">Click to launch the live video feed</p>
+              </div>
+            </div>
+            <div class="cinema-player-frame" id="cinemaPlayerFrame" style="display: none;">
+              <!-- Dynamic iframe injected on user request -->
+            </div>
+          </div>
+
+          <div class="cinema-footer">
+            <a href="https://www.twitch.tv/celestialnightcat" target="_blank" rel="noopener" class="cinema-twitch-link">
+              <i class="fab fa-twitch"></i> Watch in Full Twitch Theater & Chat <i class="fas fa-external-link-alt"></i>
+            </a>
+            <button class="cinema-collapse-btn" id="cinemaCollapseBtn" style="display: none;">
+              <i class="fas fa-compress-alt"></i> Close Player
+            </button>
+          </div>
+        </div>
+      </section>
+
       <!-- Search & Filter Controls -->
       <section class="controls-section">
         <div class="search-box">
@@ -245,6 +293,16 @@
         </div>
       </section>
 
+      <!-- Fleet Operations & Tournaments Section -->
+      <section class="operations-section">
+        <h3 class="section-title"><i class="fas fa-trophy"></i> Fleet Operations & Events</h3>
+        <p class="section-desc">From our community Baja Blast Cup to weekly raid trains and armory drops.</p>
+
+        <div class="operations-grid" id="operationsGrid">
+          <!-- Dynamically populated from teamData.operations -->
+        </div>
+      </section>
+
       <!-- Expectations & Flight Checklist Card -->
       <section class="expectations-card">
         <div class="expectations-header">
@@ -254,6 +312,20 @@
         <ul class="expectations-list" id="expectationsList">
           <!-- Populated from teamData -->
         </ul>
+      </section>
+
+      <!-- Fleet Partnerships & Developer Collabs -->
+      <section class="collab-deck-card">
+        <div class="collab-content">
+          <div class="collab-badge"><i class="fas fa-handshake"></i> CREATOR & SPONSOR COLLABS</div>
+          <h3>Partner With The Space Cats Fleet</h3>
+          <p>Are you an indie game developer, VTuber artist, or gaming brand looking to collaborate on sponsored raids, community tournaments, or game showcases?</p>
+          <div class="collab-actions">
+            <a href="mailto:celestialnightcat@gmail.com?subject=Space%20Cats%20Fleet%20Collaboration" class="secondary-team-btn">
+              <i class="fas fa-envelope"></i> Contact Fleet Management
+            </a>
+          </div>
+        </div>
       </section>
 
       <!-- Bottom Application Launchpad Banner -->

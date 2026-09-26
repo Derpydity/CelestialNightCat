@@ -186,6 +186,35 @@ export const teamData = {
       accent: "gold"
     }
   ],
+  operations: [
+    {
+      badge: "COMMUNITY SHOWDOWN 🏆",
+      title: "The Baja Blast Cup",
+      desc: "Our signature community competitive tournament! Open to fleet pilots, community members, and friendly rivals. Brackets, prizes, and game schedules are hosted in Discord #🏆﹒fleet-tournaments.",
+      icon: "fas fa-trophy",
+      accent: "cyan",
+      actionText: "Tournament Channel",
+      actionUrl: "https://discord.gg/xkttEuvkkV"
+    },
+    {
+      badge: "WEEKLY SYNC 🚀",
+      title: "The Starlight Raid Network",
+      desc: "Zero broadcasts end in darkness. Every stream wraps up with an active raid hand-off to fellow crew members and rising indie VTubers in orbit.",
+      icon: "fas fa-satellite-dish",
+      accent: "purple",
+      actionText: "Twitch Team Hub",
+      actionUrl: "https://www.twitch.tv/team/spacecatsprogram"
+    },
+    {
+      badge: "CREATOR VAULT 🎁",
+      title: "The Fleet Armory Drops",
+      desc: "100% Free VTuber hand assets, microphone props, stream overlay packages, and DMCA-safe synthwave tracks dropped weekly in #🎁﹒free-vtuber-assets.",
+      icon: "fas fa-gift",
+      accent: "gold",
+      actionText: "Browse Armory",
+      actionUrl: "https://discord.gg/xkttEuvkkV"
+    }
+  ],
   expectations: [
     "Active Streamer: Broadcast at least 2+ times per week.",
     "The Raid Pledge: Committed to raiding live team members when concluding streams.",

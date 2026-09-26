@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupPortalTabs();
   renderTeamSection();
   renderRosterSection();
+  setupCosmicCinema();
   setupApplicationModal();
   handleUrlHashRouting();
 });
@@ -629,6 +630,29 @@ function renderTeamSection() {
     `).join('');
   }
 
+  const operationsGrid = document.getElementById('operationsGrid');
+  if (operationsGrid && teamData.operations) {
+    operationsGrid.innerHTML = teamData.operations.map(op => `
+      <div class="operation-card ${op.accent}">
+        <div class="op-badge-row">
+          <span class="op-badge ${op.accent}"><span class="op-dot"></span>${op.badge}</span>
+        </div>
+        <div class="op-header">
+          <div class="op-icon-box ${op.accent}">
+            <i class="${op.icon}"></i>
+          </div>
+          <h4>${op.title}</h4>
+        </div>
+        <p class="op-desc">${op.desc}</p>
+        <div class="op-footer">
+          <a href="${op.actionUrl}" target="_blank" rel="noopener" class="op-action-btn ${op.accent}">
+            ${op.actionText} <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    `).join('');
+  }
+
   const expectationsList = document.getElementById('expectationsList');
   if (expectationsList && teamData.expectations) {
     expectationsList.innerHTML = teamData.expectations.map(exp => `
@@ -892,5 +916,112 @@ function handleUrlHashRouting() {
 
   checkHash();
   window.addEventListener('hashchange', checkHash);
+}
+
+/* ==========================================================================
+   14. Cosmic Cinema & Live Stream / Clip Player
+   ========================================================================== */
+function setupCosmicCinema() {
+  const cinemaStage = document.getElementById('cinemaStage');
+  if (!cinemaStage) return;
+
+  const cinemaLiveBtn = document.getElementById('cinemaLiveBtn');
+  const cinemaClipBtn = document.getElementById('cinemaClipBtn');
+  const cinemaLaunchBtn = document.getElementById('cinemaLaunchBtn');
+  const cinemaCover = document.getElementById('cinemaPreview');
+  const playerFrame = document.getElementById('cinemaPlayerFrame');
+  const collapseBtn = document.getElementById('cinemaCollapseBtn');
+  const stageTitle = document.getElementById('cinemaStageTitle');
+  const stageDesc = document.getElementById('cinemaStageDesc');
+
+  let currentMode = 'stream'; // 'stream' or 'clip'
+  let isPlaying = false;
+
+  const currentHost = window.location.hostname || 'localhost';
+  const parents = `parent=${encodeURIComponent(currentHost)}&parent=spacenightcats.vercel.app&parent=derpydity.github.io&parent=localhost`;
+
+  function loadPlayer() {
+    isPlaying = true;
+    if (cinemaCover) cinemaCover.style.display = 'none';
+    if (playerFrame) {
+      playerFrame.style.display = 'block';
+      if (currentMode === 'stream') {
+        playerFrame.innerHTML = `
+          <iframe
+            src="https://player.twitch.tv/?channel=celestialnightcat&${parents}&autoplay=true&muted=false"
+            height="100%"
+            width="100%"
+            allowfullscreen="true"
+            frameborder="0"
+            scrolling="no"
+            title="CelestialNightCat Twitch Stream"
+          ></iframe>
+        `;
+      } else {
+        playerFrame.innerHTML = `
+          <iframe
+            src="https://clips.twitch.tv/embed?clip=AmusedAthleticReindeerRlyTho-cKxHh851wQIIbpeE&${parents}&autoplay=true&muted=false"
+            height="100%"
+            width="100%"
+            allowfullscreen="true"
+            frameborder="0"
+            scrolling="no"
+            title="CelestialNightCat Featured Clip"
+          ></iframe>
+        `;
+      }
+    }
+    if (collapseBtn) collapseBtn.style.display = 'inline-flex';
+  }
+
+  function closePlayer() {
+    isPlaying = false;
+    if (playerFrame) {
+      playerFrame.innerHTML = '';
+      playerFrame.style.display = 'none';
+    }
+    if (cinemaCover) cinemaCover.style.display = 'flex';
+    if (collapseBtn) collapseBtn.style.display = 'none';
+  }
+
+  if (cinemaLaunchBtn) {
+    cinemaLaunchBtn.addEventListener('click', () => {
+      playChime(700, 1100);
+      loadPlayer();
+    });
+  }
+
+  if (collapseBtn) {
+    collapseBtn.addEventListener('click', () => {
+      playChime(500, 300);
+      closePlayer();
+    });
+  }
+
+  if (cinemaLiveBtn && cinemaClipBtn) {
+    cinemaLiveBtn.addEventListener('click', () => {
+      if (currentMode === 'stream') return;
+      currentMode = 'stream';
+      cinemaLiveBtn.classList.add('active');
+      cinemaClipBtn.classList.remove('active');
+      if (stageTitle) stageTitle.textContent = 'CelestialNightCat Live Broadcast';
+      if (stageDesc) stageDesc.textContent = 'Watch live streams, cozy chat & nocturnal broadcasts';
+      if (isPlaying) {
+        loadPlayer();
+      }
+    });
+
+    cinemaClipBtn.addEventListener('click', () => {
+      if (currentMode === 'clip') return;
+      currentMode = 'clip';
+      cinemaClipBtn.classList.add('active');
+      cinemaLiveBtn.classList.remove('active');
+      if (stageTitle) stageTitle.textContent = 'Featured Clip: Amused Athletic Reindeer';
+      if (stageDesc) stageDesc.textContent = 'Celestial\'s latest viral highlight clip';
+      if (isPlaying) {
+        loadPlayer();
+      }
+    });
+  }
 }
 
