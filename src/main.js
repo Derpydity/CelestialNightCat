@@ -408,6 +408,46 @@ function setupQrModal() {
   qrModal.addEventListener('click', (e) => {
     if (e.target === qrModal) qrModal.classList.remove('active');
   });
+
+  const downloadBtn = document.getElementById('downloadQrBtn');
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', () => {
+      const svg = qrBox ? qrBox.querySelector('svg') : null;
+      if (!svg) return;
+      playChime(600, 900);
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'celestial-night-cat-portal-qr.svg';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('QR Code downloaded! ✨');
+    });
+  }
+
+  // Global Escape key accessibility handler
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (qrModal && qrModal.classList.contains('active')) {
+        qrModal.classList.remove('active');
+      }
+      const appModal = document.getElementById('appModal');
+      if (appModal && (appModal.classList.contains('active') || appModal.classList.contains('show'))) {
+        appModal.classList.remove('active');
+        appModal.classList.remove('show');
+        appModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+      const themeDropdown = document.getElementById('themeDropdown');
+      if (themeDropdown && themeDropdown.classList.contains('show')) {
+        themeDropdown.classList.remove('show');
+      }
+    }
+  });
 }
 
 // Simple Vector QR Code Generator placeholder renderer for instant sharp SVG output
