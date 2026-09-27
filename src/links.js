@@ -113,6 +113,17 @@ export const linksData = [
     accent: "red"
   },
   {
+    id: "yt-vods",
+    title: "Full Stream VOD Archives 🎬",
+    url: "https://www.youtube.com/playlist?list=PLO4w7rtDY2Dl",
+    description: "69+ Uncut Full Broadcasts • Cozy late-night gaming, 10h marathons & reactions 🌙",
+    icon: "fas fa-film",
+    badge: "69 FULL VODS 📺",
+    featured: true,
+    category: "Video & Stream",
+    accent: "purple"
+  },
+  {
     id: "yt-shorts",
     title: "YouTube Shorts",
     url: "https://www.youtube.com/@Celestialnightcats/shorts",
