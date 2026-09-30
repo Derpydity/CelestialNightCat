@@ -102,6 +102,17 @@ export const linksData = [
     accent: "purple"
   },
   {
+    id: "x-twitter",
+    title: "Twitter / X (@Midnighttx) 🐦",
+    url: "https://x.com/Midnighttx",
+    description: "Follow @Midnighttx for stream schedules, thoughts & cosmic announcements ✨",
+    icon: "fab fa-x-twitter",
+    badge: "TWITTER / X",
+    featured: true,
+    category: "Socials",
+    accent: "cyan"
+  },
+  {
     id: "yt-main",
     title: "YouTube Channel",
     url: "https://www.youtube.com/@CelestialNightCat",
@@ -161,13 +172,14 @@ export const linksData = [
 
 export const socialBar = [
   { name: "Twitch Main Realm", icon: "fab fa-twitch", url: "https://www.twitch.tv/celestialnightcat" },
-  { name: "Space Cats Stream Team", icon: "fas fa-users", url: "https://www.twitch.tv/team/spacecatsprogram" },
+  { name: "Twitter / X", icon: "fab fa-x-twitter", url: "https://x.com/Midnighttx" },
   { name: "Discord Cat Cafe", icon: "fab fa-discord", url: "https://discord.com/invite/vRxx5sjjtR" },
-  { name: "PayPal Tip Jar", icon: "fab fa-paypal", url: "https://paypal.me/blackshadowwx?locale.x=en_US" },
   { name: "TikTok Main", icon: "fab fa-tiktok", url: "https://www.tiktok.com/@celestialnightcat" },
   { name: "TikTok TV", icon: "fas fa-tv", url: "https://www.tiktok.com/@celestialnightcattv" },
   { name: "YouTube", icon: "fab fa-youtube", url: "https://www.youtube.com/@CelestialNightCat" },
   { name: "YouTube Shorts", icon: "fas fa-bolt", url: "https://www.youtube.com/@Celestialnightcats/shorts" },
+  { name: "Space Cats Stream Team", icon: "fas fa-users", url: "https://www.twitch.tv/team/spacecatsprogram" },
+  { name: "PayPal Tip Jar", icon: "fab fa-paypal", url: "https://paypal.me/blackshadowwx?locale.x=en_US" },
   { name: "Email Inquiries", icon: "fas fa-envelope", url: "mailto:celestialnightcat@gmail.com" }
 ];
 
@@ -234,6 +246,7 @@ export const rosterData = [
     icon: "fas fa-crown",
     bio: "Late night gamer cat with a desire to spread kindness in a dark world. Variety gaming, reactions & starlight adventures.",
     twitch: "https://www.twitch.tv/celestialnightcat",
+    twitter: "https://x.com/Midnighttx",
     tiktok: "https://www.tiktok.com/@celestialnightcat",
     youtube: "https://www.youtube.com/@CelestialNightCat",
     live: true,

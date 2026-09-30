@@ -429,6 +429,7 @@ body {
 .social-link.tiktok:hover { background: #000000; border-color: #ff0050; }
 .social-link.youtube:hover { background: #ff0000; border-color: #ff0000; }
 .social-link.discord:hover { background: #5865f2; border-color: #5865f2; }
+.social-link.twitter:hover { background: #000000; border-color: #1d9bf0; color: #1d9bf0; }
 
 /* Flight Plan Schedule Card */
 .flight-plan-card {
@@ -1679,6 +1680,17 @@ body {
 
 .roster-link-btn.youtube:hover {
   background: #ff0000;
+  color: white;
+}
+
+.roster-link-btn.twitter {
+  background: rgba(29, 155, 240, 0.15);
+  color: #70c4ff;
+  border: 1px solid rgba(29, 155, 240, 0.35);
+}
+
+.roster-link-btn.twitter:hover {
+  background: #1d9bf0;
   color: white;
 }
 

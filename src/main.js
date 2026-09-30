@@ -277,6 +277,7 @@ function renderSocials() {
     if (item.name.toLowerCase().includes('tiktok')) extraClass = 'tiktok';
     if (item.name.toLowerCase().includes('youtube')) extraClass = 'youtube';
     if (item.name.toLowerCase().includes('discord')) extraClass = 'discord';
+    if (item.name.toLowerCase().includes('twitter') || item.name.toLowerCase().includes('x')) extraClass = 'twitter';
 
     return `
       <a href="${item.url}" target="_blank" rel="noopener noreferrer" 
@@ -780,6 +781,7 @@ function renderRosterSection() {
 
         <div class="roster-links-row">
           ${member.twitch ? `<a href="${member.twitch}" target="_blank" rel="noopener" class="roster-link-btn twitch"><i class="fab fa-twitch"></i> Twitch</a>` : ''}
+          ${member.twitter ? `<a href="${member.twitter}" target="_blank" rel="noopener" class="roster-link-btn twitter"><i class="fab fa-x-twitter"></i> X / Twitter</a>` : ''}
           ${member.tiktok ? `<a href="${member.tiktok}" target="_blank" rel="noopener" class="roster-link-btn tiktok"><i class="fab fa-tiktok"></i> TikTok</a>` : ''}
           ${member.youtube ? `<a href="${member.youtube}" target="_blank" rel="noopener" class="roster-link-btn youtube"><i class="fab fa-youtube"></i> YouTube</a>` : ''}
         </div>
