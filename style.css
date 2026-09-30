@@ -1694,6 +1694,28 @@ body {
   color: white;
 }
 
+.roster-link-btn.discord {
+  background: rgba(88, 101, 242, 0.15);
+  color: #7289da;
+  border: 1px solid rgba(88, 101, 242, 0.35);
+}
+
+.roster-link-btn.discord:hover {
+  background: #5865f2;
+  color: white;
+}
+
+.roster-link-btn.carrd {
+  background: rgba(43, 196, 138, 0.15);
+  color: #2bc48a;
+  border: 1px solid rgba(43, 196, 138, 0.35);
+}
+
+.roster-link-btn.carrd:hover {
+  background: #2bc48a;
+  color: white;
+}
+
 .join-roster-callout {
   background: var(--bg-card);
   border: 1px dashed var(--border-hover);

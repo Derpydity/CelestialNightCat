@@ -784,6 +784,8 @@ function renderRosterSection() {
           ${member.twitter ? `<a href="${member.twitter}" target="_blank" rel="noopener" class="roster-link-btn twitter"><i class="fab fa-x-twitter"></i> X / Twitter</a>` : ''}
           ${member.tiktok ? `<a href="${member.tiktok}" target="_blank" rel="noopener" class="roster-link-btn tiktok"><i class="fab fa-tiktok"></i> TikTok</a>` : ''}
           ${member.youtube ? `<a href="${member.youtube}" target="_blank" rel="noopener" class="roster-link-btn youtube"><i class="fab fa-youtube"></i> YouTube</a>` : ''}
+          ${member.discord ? `<a href="${member.discord}" target="_blank" rel="noopener" class="roster-link-btn discord"><i class="fab fa-discord"></i> Discord</a>` : ''}
+          ${member.carrd ? `<a href="${member.carrd}" target="_blank" rel="noopener" class="roster-link-btn carrd"><i class="fas fa-link"></i> Socials</a>` : ''}
         </div>
       </div>
     `;
