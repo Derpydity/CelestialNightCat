@@ -311,10 +311,10 @@ export const rosterData = [
   {
     id: "crew-wbtech_ttv",
     name: "WBTech_TTV",
-    role: "Variety & Tech Streamer 🎮",
+    role: "Variety ADHD Streamer 🎮",
     roleType: "spacecat",
     avatar: "https://static-cdn.jtvnw.net/jtv_user_pictures/ece83d9c-7bc7-47dd-84db-27263a4f8f61-profile_image-300x300.png",
-    icon: "fas fa-microchip",
+    icon: "fas fa-gamepad",
     bio: "Hey my name is WBTech but Tech for short. I'm a Variety Streamer, ADHD and into doing Voices. You Can Keep Up To Date on Twitter or Discord on Plan Scheduled Stream going LIVE!",
     twitch: "https://www.twitch.tv/wbtech_ttv",
     twitter: "https://x.com/WBTech_TTV",
@@ -322,7 +322,7 @@ export const rosterData = [
     youtube: "https://www.youtube.com/@wbtechtv",
     live: false,
     game: "Variety Gaming",
-    tags: ["Variety", "ADHD Gamer", "Tech"]
+    tags: ["Variety", "ADHD Gamer", "Voices"]
   },
   {
     id: "crew-thewildpotato117",

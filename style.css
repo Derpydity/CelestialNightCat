@@ -1634,8 +1634,9 @@ body {
 
 .roster-links-row {
   display: flex;
-  gap: 10px;
-  margin-top: 4px;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
 }
 
 .roster-link-btn {
